@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Housing Market Analysis{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0d0d0d;
+            --paper: #f5f0e8;
+            --cream: #ede8dc;
+            --rust: #c0392b;
+            --gold: #d4a017;
+            --slate: #4a4a4a;
+            --light-slate: #8a8a8a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: var(--ink);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 3rem;
+            height: 64px;
+            border-bottom: 3px solid var(--rust);
+        }
+        .nav-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            color: var(--paper);
+            letter-spacing: 3px;
+            text-decoration: none;
+        }
+        .nav-brand span { color: var(--rust); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            color: var(--light-slate);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+        main { padding-top: 64px; }
+    </style>
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <a href="/" class="nav-brand">HOUSE<span>LENS</span></a>
+        <ul class="nav-links">
+            <li><a href="/" {% if request.path == '/' %}class="active"{% endif %}>Home</a></li>
+            <li><a href="/dashboard" {% if request.path == '/dashboard' %}class="active"{% endif %}>Dashboard</a></li>
+            <li><a href="/team" {% if request.path == '/team' %}class="active"{% endif %}>Team</a></li>
+        </ul>
+    </nav>
+    <main>{% block content %}{% endblock %}</main>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

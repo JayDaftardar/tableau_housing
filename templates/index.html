@@ -1,0 +1,416 @@
+{% extends "base.html" %}
+{% block title %}HouseLens — Housing Market Analysis{% endblock %}
+
+{% block extra_styles %}
+<style>
+    /* ── HERO ── */
+    .hero {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-left {
+        background: var(--ink);
+        display: flex; flex-direction: column;
+        justify-content: center;
+        padding: 6rem 4rem 6rem 5rem;
+        position: relative;
+    }
+    .hero-left::after {
+        content: '';
+        position: absolute; top: 0; right: -1px; bottom: 0;
+        width: 3px;
+        background: var(--rust);
+    }
+    .hero-eyebrow {
+        font-size: 0.72rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(4rem, 7vw, 8rem);
+        line-height: 0.9;
+        color: var(--paper);
+        letter-spacing: 2px;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-title em {
+        font-style: normal;
+        color: var(--rust);
+        display: block;
+    }
+    .hero-desc {
+        font-size: 1rem;
+        color: var(--light-slate);
+        line-height: 1.8;
+        max-width: 380px;
+        margin-bottom: 3rem;
+        font-weight: 300;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-ctas {
+        display: flex; gap: 1rem; flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn-primary {
+        background: var(--rust);
+        color: #fff;
+        padding: 0.9rem 2.2rem;
+        text-decoration: none;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: background 0.2s, transform 0.2s;
+        display: inline-block;
+    }
+    .btn-primary:hover { background: #a93226; transform: translateY(-2px); }
+    .btn-outline {
+        border: 1.5px solid var(--slate);
+        color: var(--paper);
+        padding: 0.9rem 2.2rem;
+        text-decoration: none;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: border-color 0.2s, color 0.2s, transform 0.2s;
+        display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    /* decorative ticker strip at bottom of hero-left */
+    .ticker {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: var(--rust);
+        padding: 0.55rem 0;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .ticker-inner {
+        display: inline-block;
+        animation: ticker 25s linear infinite;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 0.95rem;
+        letter-spacing: 3px;
+        color: rgba(255,255,255,0.85);
+    }
+
+    /* hero-right: visual collage */
+    .hero-right {
+        background: var(--cream);
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        gap: 0;
+        position: relative;
+        overflow: hidden;
+    }
+    .stat-card {
+        display: flex; flex-direction: column;
+        justify-content: center; padding: 3rem;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        opacity: 0;
+        animation: fadeIn 0.9s forwards;
+    }
+    .stat-card:nth-child(1) { animation-delay: 0.6s; }
+    .stat-card:nth-child(2) { animation-delay: 0.8s; border-bottom: none; }
+    .stat-grid {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 0;
+        height: 100%;
+    }
+    .stat-item {
+        padding: 2.5rem;
+        border-right: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        display: flex; flex-direction: column; justify-content: flex-end;
+        opacity: 0;
+        animation: fadeIn 0.9s forwards;
+    }
+    .stat-item:nth-child(1) { animation-delay: 0.5s; }
+    .stat-item:nth-child(2) { animation-delay: 0.65s; border-right: none; }
+    .stat-item:nth-child(3) { animation-delay: 0.8s; border-bottom: none; }
+    .stat-item:nth-child(4) { animation-delay: 0.95s; border-right: none; border-bottom: none; }
+    .stat-num {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 3.5rem;
+        color: var(--ink);
+        line-height: 1;
+        margin-bottom: 0.4rem;
+    }
+    .stat-num span { color: var(--rust); }
+    .stat-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--light-slate);
+        font-weight: 500;
+    }
+
+    /* ── SCENARIOS SECTION ── */
+    .section-header {
+        padding: 5rem 5rem 3rem;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        display: flex; align-items: baseline; gap: 2rem;
+    }
+    .section-num {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 5rem;
+        color: rgba(0,0,0,0.06);
+        line-height: 1;
+    }
+    .section-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.8rem;
+        letter-spacing: 2px;
+    }
+    .section-title em { font-style: normal; color: var(--rust); }
+
+    .scenarios-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .scenario-card {
+        padding: 3.5rem;
+        border-right: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        transition: background 0.3s;
+        cursor: default;
+    }
+    .scenario-card:nth-child(even) { border-right: none; }
+    .scenario-card:nth-child(3),
+    .scenario-card:nth-child(4) { border-bottom: none; }
+    .scenario-card:hover { background: var(--cream); }
+    .sc-num {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 3px;
+        color: var(--rust);
+        margin-bottom: 1.2rem;
+    }
+    .sc-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+        margin-bottom: 1.2rem;
+        line-height: 1.1;
+    }
+    .sc-text {
+        font-size: 0.9rem;
+        color: var(--slate);
+        line-height: 1.8;
+        font-weight: 300;
+    }
+    .sc-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    /* ── ABOUT SECTION ── */
+    .about-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 60vh;
+    }
+    .about-left {
+        background: var(--rust);
+        padding: 5rem;
+        display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-left .section-title { color: #fff; }
+    .about-left p {
+        color: rgba(255,255,255,0.8);
+        font-size: 1rem;
+        line-height: 1.85;
+        font-weight: 300;
+        margin-top: 1.5rem;
+        max-width: 420px;
+    }
+    .about-right {
+        background: var(--ink);
+        padding: 5rem;
+        display: flex; flex-direction: column; justify-content: center;
+    }
+    .skills-list { list-style: none; margin-top: 2rem; }
+    .skills-list li {
+        display: flex; align-items: center; gap: 1rem;
+        padding: 1.1rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        color: var(--light-slate);
+        font-size: 0.88rem;
+        letter-spacing: 1px;
+        transition: color 0.2s;
+    }
+    .skills-list li:hover { color: var(--paper); }
+    .skills-list li::before {
+        content: '→';
+        color: var(--gold);
+        font-size: 1rem;
+    }
+    .about-right .section-title { color: var(--paper); }
+
+    /* ── FOOTER ── */
+    footer {
+        background: var(--ink);
+        padding: 2rem 5rem;
+        display: flex; justify-content: space-between; align-items: center;
+        border-top: 3px solid var(--rust);
+    }
+    footer p {
+        color: var(--light-slate);
+        font-size: 0.78rem;
+        letter-spacing: 1px;
+    }
+    .footer-brand {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.4rem;
+        color: var(--paper);
+        letter-spacing: 3px;
+    }
+    .footer-brand span { color: var(--rust); }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    @keyframes ticker {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    @media (max-width: 900px) {
+        .hero, .about-section { grid-template-columns: 1fr; }
+        .hero-right { display: none; }
+        .scenarios-grid { grid-template-columns: 1fr; }
+        .scenario-card { border-right: none; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left">
+        <p class="hero-eyebrow">ABC Company · Data Analytics · Tableau</p>
+        <h1 class="hero-title">
+            Housing<br>Market
+            <em>Trends</em>
+        </h1>
+        <p class="hero-desc">
+            An in-depth analysis of sale prices, renovation impacts, and housing features using Tableau — empowering real estate professionals to make data-driven decisions.
+        </p>
+        <div class="hero-ctas">
+            <a href="/dashboard" class="btn-primary">View Dashboard</a>
+            <a href="/team" class="btn-outline">Meet the Team</a>
+        </div>
+        <div class="ticker">
+            <span class="ticker-inner">
+                SALE PRICE ANALYSIS &nbsp;·&nbsp; RENOVATION IMPACT &nbsp;·&nbsp; HOUSE AGE DISTRIBUTION &nbsp;·&nbsp; BATHROOM & BEDROOM INSIGHTS &nbsp;·&nbsp; MARKET TRENDS &nbsp;·&nbsp; TABLEAU VISUALIZATION &nbsp;·&nbsp;
+                SALE PRICE ANALYSIS &nbsp;·&nbsp; RENOVATION IMPACT &nbsp;·&nbsp; HOUSE AGE DISTRIBUTION &nbsp;·&nbsp; BATHROOM & BEDROOM INSIGHTS &nbsp;·&nbsp; MARKET TRENDS &nbsp;·&nbsp; TABLEAU VISUALIZATION &nbsp;·&nbsp;
+            </span>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div class="stat-num">21<span>K</span></div>
+                <div class="stat-label">Total Records</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">$511<span>K</span></div>
+                <div class="stat-label">Avg. Sale Price</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">38<span>M</span></div>
+                <div class="stat-label">Total Basement Area (sqft)</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">4<span>+</span></div>
+                <div class="stat-label">Visual Scenarios</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SCENARIOS -->
+<section>
+    <div class="section-header">
+        <div class="section-num">02</div>
+        <h2 class="section-title">What We <em>Analyzed</em></h2>
+    </div>
+    <div class="scenarios-grid">
+        <div class="scenario-card">
+            <span class="sc-icon">📊</span>
+            <div class="sc-num">SCENARIO 01</div>
+            <h3 class="sc-title">Overall Data Overview</h3>
+            <p class="sc-text">A high-level summary of the dataset showing total records (21,609), average sale price ($511,619), and total basement area (38,643,798 sqft). Provides stakeholders a quick snapshot to establish context before deeper analysis.</p>
+        </div>
+        <div class="scenario-card">
+            <span class="sc-icon">🏗️</span>
+            <div class="sc-num">SCENARIO 02</div>
+            <h3 class="sc-title">Total Sales by Years Since Renovation</h3>
+            <p class="sc-text">A histogram showing the distribution of total sales across price bins grouped by renovation recency. Reveals that recently renovated homes in the $1.1M+ bracket dominate total sales volume — pointing to renovation as a strong price driver.</p>
+        </div>
+        <div class="scenario-card">
+            <span class="sc-icon">🥧</span>
+            <div class="sc-num">SCENARIO 03</div>
+            <h3 class="sc-title">Distribution of House Age by Renovation Status</h3>
+            <p class="sc-text">A pie chart segmenting the housing inventory by age group and renovation history. The spread across age groups (50–118 years) shows a diverse inventory, helping stakeholders understand renovation prevalence at different stages of a home's lifecycle.</p>
+        </div>
+        <div class="scenario-card">
+            <span class="sc-icon">🏠</span>
+            <div class="sc-num">SCENARIO 04</div>
+            <h3 class="sc-title">House Age by Bathrooms, Bedrooms & Floors</h3>
+            <p class="sc-text">A grouped bar chart comparing house feature counts (bathrooms, bedrooms, floors) across different house ages (4–15 years). Consistently, bedrooms score highest, suggesting new builds prioritize bedroom count over bathroom density and multi-floor designs.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT / SKILLS -->
+<section class="about-section">
+    <div class="about-left">
+        <h2 class="section-title">About the<br>Project</h2>
+        <p>
+            Developed for ABC Company as part of a Data Analytics with Tableau program on SkillWallet, this project addresses the challenge of understanding housing market dynamics. By combining thorough data preparation with impactful Tableau visualizations, the team delivers actionable insights for real estate analysts, marketing teams, and executives.
+        </p>
+        <p style="margin-top:1rem;">
+            The analysis leverages a dataset of 21,609 transformed housing records, exploring renovation impact, pricing strategies, and feature-based market segmentation.
+        </p>
+    </div>
+    <div class="about-right">
+        <h2 class="section-title" style="color:var(--paper);">Skills &amp; <em style="color:var(--gold);font-style:normal">Tools</em></h2>
+        <ul class="skills-list">
+            <li>Data Analysis &amp; Preparation</li>
+            <li>Tableau (Business Intelligence)</li>
+            <li>Data Visualization &amp; Dashboarding</li>
+            <li>Flask (Web Framework)</li>
+            <li>Storyboard &amp; Narrative Design</li>
+            <li>Performance Testing &amp; Filters</li>
+        </ul>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-brand">HOUSE<span>LENS</span></div>
+    <p>ABC Company · Data Analytics with Tableau · SkillWallet Program</p>
+    <p>© 2024 All rights reserved</p>
+</footer>
+{% endblock %}
