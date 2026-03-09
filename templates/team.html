@@ -136,35 +136,6 @@
         border: 1px solid rgba(192,57,43,0.2);
     }
 
-    /* Program info section */
-    .program-section {
-        background: var(--ink);
-        padding: 4rem 5rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 5rem;
-        border-top: 3px solid var(--rust);
-    }
-    .prog-block-title {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 2rem;
-        letter-spacing: 2px;
-        color: var(--paper);
-        margin-bottom: 1.5rem;
-    }
-    .prog-block-title em { font-style: normal; color: var(--gold); }
-    .prog-list { list-style: none; }
-    .prog-list li {
-        display: flex; align-items: flex-start; gap: 1rem;
-        padding: 0.9rem 0;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        color: var(--light-slate);
-        font-size: 0.88rem;
-        line-height: 1.5;
-        font-weight: 300;
-    }
-    .prog-list li::before { content: '▸'; color: var(--rust); flex-shrink: 0; margin-top: 0.1rem; }
-
     footer {
         background: #070707;
         padding: 2rem 5rem;
@@ -179,7 +150,7 @@
     }
 
     @media (max-width: 900px) {
-        .team-hero, .program-section { grid-template-columns: 1fr; }
+        .team-hero { grid-template-columns: 1fr; }
         .members-grid { grid-template-columns: repeat(2, 1fr); }
         .team-section, .team-hero { padding: 2rem 1.5rem; }
     }
@@ -256,34 +227,6 @@
             <p class="member-role">Web Integration</p>
             <span class="member-badge">Member</span>
         </div>
-    </div>
-</section>
-
-<!-- Program Info -->
-<section class="program-section">
-    <div>
-        <h3 class="prog-block-title">Project <em>Scope</em></h3>
-        <ul class="prog-list">
-            <li>Data Collection &amp; Extraction from dataset (21,609 records)</li>
-            <li>Data preparation and transformation for Tableau</li>
-            <li>4 key visualizations covering market overview, renovation trends, house age distribution, and feature analysis</li>
-            <li>Interactive Tableau dashboard and storyboard creation</li>
-            <li>Performance testing: filters, calculated fields, and visualizations</li>
-            <li>Flask web integration with embedded Tableau dashboard</li>
-            <li>Project demonstration &amp; documentation</li>
-        </ul>
-    </div>
-    <div>
-        <h3 class="prog-block-title">Skills <em>Applied</em></h3>
-        <ul class="prog-list">
-            <li>Data Analysis &amp; Business Intelligence</li>
-            <li>Tableau Desktop &amp; Tableau Public</li>
-            <li>Data Visualization &amp; Storytelling</li>
-            <li>Flask (Python Web Framework)</li>
-            <li>HTML, CSS &amp; JavaScript</li>
-            <li>Dashboard Responsive Design</li>
-            <li>Agile Project Management (Kanban / Epics)</li>
-        </ul>
     </div>
 </section>
 
