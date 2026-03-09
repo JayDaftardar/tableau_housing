@@ -93,74 +93,10 @@
         margin-bottom: 3.5rem;
     }
 
-    /* Team Lead Feature */
-    .team-lead-card {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 3rem;
-        align-items: center;
-        padding: 3rem;
-        border: 1px solid rgba(0,0,0,0.12);
-        background: var(--cream);
-        margin-bottom: 3rem;
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.2s;
-    }
-    .team-lead-card:hover { transform: translateY(-3px); }
-    .team-lead-card::before {
-        content: 'TEAM LEAD';
-        position: absolute;
-        top: 1.2rem; right: 1.5rem;
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 0.8rem;
-        letter-spacing: 3px;
-        color: var(--rust);
-        background: rgba(192,57,43,0.08);
-        padding: 0.3rem 0.8rem;
-        border: 1px solid rgba(192,57,43,0.2);
-    }
-    .avatar-large {
-        width: 120px; height: 120px;
-        border-radius: 0;
-        background: var(--ink);
-        display: flex; align-items: center; justify-content: center;
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 3rem;
-        color: var(--paper);
-        letter-spacing: 2px;
-        flex-shrink: 0;
-        border: 3px solid var(--rust);
-        overflow: hidden;
-    }
-    .avatar-large img { width: 100%; height: 100%; object-fit: cover; }
-    .lead-info { }
-    .lead-name {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 2.5rem;
-        letter-spacing: 2px;
-        line-height: 1;
-        margin-bottom: 0.4rem;
-    }
-    .lead-role {
-        font-size: 0.75rem;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 1rem;
-    }
-    .lead-desc {
-        font-size: 0.9rem;
-        color: var(--slate);
-        line-height: 1.7;
-        font-weight: 300;
-        max-width: 480px;
-    }
-
     /* Members grid */
     .members-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 1.5rem;
     }
     .member-card {
@@ -176,18 +112,6 @@
         box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         background: var(--cream);
     }
-    .avatar-sm {
-        width: 80px; height: 80px;
-        background: var(--ink);
-        display: flex; align-items: center; justify-content: center;
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 1.8rem;
-        color: var(--paper);
-        margin: 0 auto 1.2rem;
-        letter-spacing: 1px;
-        overflow: hidden;
-    }
-    .avatar-sm img { width: 100%; height: 100%; object-fit: cover; }
     .member-name {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 1.3rem;
@@ -250,11 +174,14 @@
     .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--paper); letter-spacing: 3px; }
     .footer-brand span { color: var(--rust); }
 
+    @media (max-width: 1200px) {
+        .members-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
     @media (max-width: 900px) {
         .team-hero, .program-section { grid-template-columns: 1fr; }
         .members-grid { grid-template-columns: repeat(2, 1fr); }
         .team-section, .team-hero { padding: 2rem 1.5rem; }
-        .team-lead-card { grid-template-columns: 1fr; text-align: center; }
     }
 </style>
 {% endblock %}
@@ -265,7 +192,7 @@
     <div class="team-hero-left">
         <p class="team-eyebrow">SkillWallet · Data Analytics Program</p>
         <h1 class="team-title">The<br><em>Team</em><br>Behind It</h1>
-        <p class="team-desc">A group of five data analytics students collaborating on the HouseLens housing market analysis project for ABC Company.</p>
+        <p class="team-desc">A group of five data analytics students collaborating on the HouseLens housing market analysis project.</p>
     </div>
     <div class="team-hero-right">
         <div class="project-badge">
@@ -277,11 +204,7 @@
                     <span class="badge-val">Data Analytics with Tableau</span>
                 </div>
                 <hr class="badge-divider">
-                <div class="badge-row">
-                    <span class="badge-key">Client</span>
-                    <span class="badge-val">ABC Company</span>
-                </div>
-                <hr class="badge-divider">
+
                 <div class="badge-row">
                     <span class="badge-key">Platform</span>
                     <span class="badge-val">SkillWallet</span>
@@ -304,44 +227,31 @@
 <!-- Team -->
 <section class="team-section">
     <h2 class="team-section-title">Our <em>People</em></h2>
-    <p class="team-section-sub">1 Team Lead · 4 Members</p>
-
-    <!-- Team Lead -->
-    <div class="team-lead-card">
-        <div class="avatar-large">
-            <span>KM</span>
-        </div>
-        <div class="lead-info">
-            <h3 class="lead-name">Kaivalya Mane</h3>
-            <p class="lead-role">Team Lead</p>
-            <p class="lead-desc">
-                Leads the project architecture and coordinates all workstreams — from data collection and Tableau dashboard design to web integration. Responsible for ensuring that all visualizations align with ABC Company's analytical objectives and stakeholder requirements.
-            </p>
-        </div>
-    </div>
+    <p class="team-section-sub">5 Team Members</p>
 
     <!-- Members -->
     <div class="members-grid">
         <div class="member-card">
-            <div class="avatar-sm">SS</div>
-            <h4 class="member-name">Samarth Sawant</h4>
-            <p class="member-role">Data Analyst</p>
-            <span class="member-badge">Member</span>
-        </div>
-        <div class="member-card">
-            <div class="avatar-sm">IG</div>
-            <h4 class="member-name">Ishan Garud</h4>
-            <p class="member-role">Visualization Dev</p>
-            <span class="member-badge">Member</span>
-        </div>
-        <div class="member-card">
-            <div class="avatar-sm">JD</div>
             <h4 class="member-name">Jay Daftardar</h4>
             <p class="member-role">Data Preparation</p>
             <span class="member-badge">Member</span>
         </div>
         <div class="member-card">
-            <div class="avatar-sm">PP</div>
+            <h4 class="member-name">Kaivalya Mane</h4>
+            <p class="member-role">Team Lead</p>
+            <span class="member-badge">Member</span>
+        </div>
+        <div class="member-card">
+            <h4 class="member-name">Samarth Sawant</h4>
+            <p class="member-role">Data Analyst</p>
+            <span class="member-badge">Member</span>
+        </div>
+        <div class="member-card">
+            <h4 class="member-name">Ishan Garud</h4>
+            <p class="member-role">Visualization Dev</p>
+            <span class="member-badge">Member</span>
+        </div>
+        <div class="member-card">
             <h4 class="member-name">Pavan Panchal</h4>
             <p class="member-role">Web Integration</p>
             <span class="member-badge">Member</span>
@@ -379,7 +289,7 @@
 
 <footer>
     <div class="footer-brand">HOUSE<span>LENS</span></div>
-    <p>ABC Company · SkillWallet · Data Analytics with Tableau</p>
+    <p>SkillWallet · Data Analytics with Tableau</p>
     <p>© 2024 All rights reserved</p>
 </footer>
 {% endblock %}
